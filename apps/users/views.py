@@ -1,10 +1,10 @@
 #_*_encoding:utf-8_*_
 from django.shortcuts import render
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.backends import  ModelBackend
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.views.generic.base import View
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from forms import LoginForm,RegisterForm,ForgetForm,ModifyPwdForm,UploadImageForm,UserInfoForm
@@ -77,8 +77,19 @@ class RegisterView(View):
         else:
             return render(request, 'register.html',{'register_form':register_form})
 
+class LogoutView(View):
+    '''
+    用户登出
+    '''
+    def get(self,request):
+        logout(request)
+        from django.core.urlresolvers import reverse
+        return HttpResponseRedirect(reverse('index'))
 
 class LoginView(View):
+    '''
+    用户登录
+    '''
     def get(self,request):
         return render(request, 'login.html')
     def post(self,request):
