@@ -54,7 +54,7 @@ class CourseDetailView(View):
     '''
     def get(self,request,course_id):
         course = Course.objects.get(id=int(course_id))
-        course.click_nums += 1
+        course.students += 1
         course.save()
         has_fav_course = False
         has_fav_org = False
@@ -81,7 +81,7 @@ class CourseInfoView(LoginRequiredMixin, View):
     #课程章节信息
     def get(self,request,course_id):
         course = Course.objects.get(id=int(course_id))
-        course.click_nums += 1
+        course.students += 1
         course.save()
         all_resourses = CourseResource.objects.filter(course=course)
         #查询用户是否已经关联了该课程
