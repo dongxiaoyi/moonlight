@@ -7,11 +7,12 @@ import xadmin
 from users.views import LoginView,LogoutView,RegisterView,ActiveUserView,ForgetPwdView,ResetView,ModifyPwdView
 from  organization.views import OrgView
 from django.views.static import serve
-from moonlight.settings import MEDIA_ROOT
+from moonlight.settings import MEDIA_ROOT,STATIC_ROOT
+from users.views import IndexView
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
-    url('^$', TemplateView.as_view(template_name="index.html"),name="index"),
+    url('^$', IndexView.as_view(),name="index"),
     url('^login/$', LoginView.as_view(), name="login"),
     url('^logout/$', LogoutView.as_view(), name="logout"),
     url('^register/$', RegisterView.as_view(), name="register"),
@@ -28,5 +29,11 @@ urlpatterns = [
     url(r'^users/', include('users.urls', namespace='users'), ),
     #配置上传文件的访问处理函数
     url('^media/(?P<path>.*)', serve,{'document_root':MEDIA_ROOT}),
+    # 配置静态资源的访问处理函数
+    url('^static/(?P<path>.*)', serve, {'document_root': STATIC_ROOT}),
 
 ]
+
+#全局404页面配置
+handler404 = 'users.views.page_not_found'
+handler500 = 'users.views.page_error'

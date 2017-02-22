@@ -16,7 +16,7 @@ from operation.models import UserCourse,UserFavorite,UserMessage
 from organization.models import CourseOrg,Teacher
 from courses.models import Course
 import json
-from .docs import Page
+from users.models import Banner
 # Create your views here.
 class CustomBackend(ModelBackend):
     def authenticate(self, username=None, password=None, **kwargs):
@@ -101,7 +101,8 @@ class LoginView(View):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return render(request, 'index.html')
+                    from django.core.urlresolvers import reverse
+                    return HttpResponseRedirect(reverse('index'))
                 else:
                     return render(request, 'login.html', {'msg': "用户未激活"})
             else:
@@ -329,3 +330,33 @@ class MyMessagesView(LoginRequiredMixin,View):
             'unread_num':unread_num,
         })
 
+class IndexView(View):
+    '''
+    首页
+    '''
+    def get(self,request):
+        all_banners = Banner.objects.all().order_by('index')
+        courses = Course.objects.filter(is_banner=False)[:6]
+        banner_courses = Course.objects.filter(is_banner=True)[:3]
+        orgs = CourseOrg.objects.all()[:15]
+        return render(request,'index.html',{
+            'all_banners':all_banners,
+            'courses':courses,
+            'banner_courses':banner_courses,
+            'orgs':orgs
+
+        })
+
+
+def page_not_found(request):
+    from django.shortcuts import render_to_response
+    response = render_to_response('404.html',{})
+    response.status_code = 404
+    return response
+
+
+def page_error(request):
+    from django.shortcuts import render_to_response
+    response = render_to_response('500.html',{})
+    response.status_code = 500
+    return response
