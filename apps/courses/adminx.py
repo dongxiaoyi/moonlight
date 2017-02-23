@@ -9,6 +9,9 @@ class CourseAdmin(object):
     search_fields = ['name','desc','detail','degree','learn_times','students','fav_num','image','click_nums']
     #过滤器
     list_filter = ['name','desc','detail','degree','learn_times','students','fav_num','image','click_nums','add_time']
+    ordering = ['-click_nums']
+    readonly_fields = ['click_nums',]
+    exclude = ['fav_num']
 
 xadmin.site.register(Course,CourseAdmin)
 
