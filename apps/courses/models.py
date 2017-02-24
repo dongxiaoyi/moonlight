@@ -31,6 +31,13 @@ class Course(models.Model):
     def get_zjs_nums(self):
         #获取课程章节数
         return self.lesson_set.all().count()
+    get_zjs_nums.short_description = u'章节数'
+
+    def go_to(self):
+        from django.utils.safestring import mark_safe
+        return mark_safe("<a href='http://www.baidu.com'>跳转到百度</a>")
+    go_to.short_description = u'跳转到百度'
+
 
     def get_learn_users(self):
         #获取学习过课程的用户
@@ -46,6 +53,11 @@ class Course(models.Model):
     def __unicode__(self):
         return str(self.name)
 
+class BannerCourse(Course):
+    class Meta:
+        verbose_name = '轮播课程'
+        verbose_name_plural = verbose_name
+        proxy = True
 
 class Lesson(models.Model):
     course = models.ForeignKey(Course,verbose_name=u'课程')
