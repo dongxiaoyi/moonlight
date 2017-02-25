@@ -31,7 +31,8 @@ urlpatterns = [
     url('^media/(?P<path>.*)', serve,{'document_root':MEDIA_ROOT}),
     # 配置静态资源的访问处理函数
     url('^static/(?P<path>.*)', serve, {'document_root': STATIC_ROOT}),
-
+    #富文本相关
+    url(r'^ueditor/',include('DjangoUeditor.urls' )),
 ]
 
 #全局404页面配置

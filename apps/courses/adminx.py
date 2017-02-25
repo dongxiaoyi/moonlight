@@ -24,6 +24,7 @@ class CourseAdmin(object):
     exclude = ['fav_num']
     refresh_times = [3,5]
     inlines = [LessonInline,CourseResiurceInline]
+    style_fields = {'detail':'ueditor'}
 
     def queryset(self):
         qs = super(CourseAdmin,self).queryset()

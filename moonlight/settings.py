@@ -48,8 +48,19 @@ INSTALLED_APPS = [
     'crispy_forms',
     'captcha',
     'pure_pagination',
+    'DjangoUeditor',
 ]
 
+UEDITOR_SETTINGS = {
+    "config":{
+        'toolbars' : [['source','redo','bold','underline','forecolor','backcolor',
+                       'superscript','subscript','justifyleft','justifycenter','justifyright','insertorderedlist',
+                       'insertunderedlist','blockquote','formatmatch','removeformat','autotypeset','inserttable',
+                       'pasteplain','wordimage','searchreplace','map','preview','fullscreen',],
+                      ['insertcode','paragraph','fontfamily','fontsize','link','unlink','simpleupload','insertvideo',
+                       'attachment','emotion','date','time']]
+    },
+}
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
